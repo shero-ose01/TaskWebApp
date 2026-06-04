@@ -1,5 +1,5 @@
 import { useState, type SubmitEvent } from "react";
-import { ApiError, type TaskItemResponse } from "../api/types";
+import { ApiError, type TaskItemResponse, type TaskState } from "../api/types";
 import { DeleteTask, UpdateTask } from "../api/tasks";
 
 export function TaskItem({ task, onDelete, onUpdate }: TaskItemProps) {
@@ -8,6 +8,7 @@ export function TaskItem({ task, onDelete, onUpdate }: TaskItemProps) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [dueAt, setDueAt] = useState("");
+  const [state, setState] = useState<TaskState>("Pending");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -15,6 +16,7 @@ export function TaskItem({ task, onDelete, onUpdate }: TaskItemProps) {
     setTitle(task.title);
     setDescription(task.description);
     setDueAt(task.dueAt ?? "");
+    setState(task.state);
     setError(null);
     setEditing(true);
   }
@@ -29,7 +31,7 @@ export function TaskItem({ task, onDelete, onUpdate }: TaskItemProps) {
         title,
         description,
         dueAt: dueAt || null,
-        state: task.state,
+        state: state,
       });
       onUpdate(updated);
       setEditing(false);
@@ -97,6 +99,16 @@ export function TaskItem({ task, onDelete, onUpdate }: TaskItemProps) {
               onChange={(dt) => setDueAt(dt.target.value)}
               type="date"
             />
+            <label htmlFor="state">Progress</label>
+            <select
+              id="state"
+              value={state}
+              onChange={(e) => setState(e.target.value as TaskState)}
+            >
+              <option value={"Pending"}>Pending</option>
+              <option value={"InProgress"}>In Progress</option>
+              <option value={"Done"}>Done</option>
+            </select>
             <button type="submit" disabled={submitting}>
               Save
             </button>

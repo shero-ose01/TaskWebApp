@@ -1,9 +1,11 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
-import './App.css'
-import { LoginPage } from './pages/LoginPage'
-import { RegisterPage } from './pages/RegisterPage'
-import { VerifyEmailPage } from './pages/VerifyEmailPage'
-import { TasksPage } from './pages/TasksPage'
+import { Routes, Route, Navigate } from "react-router-dom";
+import "./App.css";
+import { LoginPage } from "./pages/LoginPage";
+import { RegisterPage } from "./pages/RegisterPage";
+import { VerifyEmailPage } from "./pages/VerifyEmailPage";
+import { TasksPage } from "./pages/TasksPage";
+import { Layout } from "./components/Layout";
+import { RequireAuth } from "./components/RequireAuth";
 
 function App() {
   return (
@@ -12,9 +14,13 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/verify-email" element={<VerifyEmailPage />} />
-      <Route path="/tasks" element={<TasksPage />} />
+      <Route element={<RequireAuth />}>
+        <Route element={<Layout />}>
+          <Route path="/tasks" element={<TasksPage />} />
+        </Route>
+      </Route>
     </Routes>
-  )
+  );
 }
 
-export default App
+export default App;
