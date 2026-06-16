@@ -12,6 +12,9 @@ export function Layout() {
         <p>
           <a href="https://github.com/shero-ose01">Github</a>
         </p>
+        <p>
+          <a href="/impressum">Impressum</a>
+        </p>
       </footer>
     </>
   );

@@ -9,8 +9,7 @@ using Microsoft.AspNetCore.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var jwtKey = builder.Configuration["Jwt:Key"]
-    ?? throw new InvalidOperationException("Jwt:Key is missing from configuration");
+var jwtKey = builder.Configuration["Jwt:Key"];
 
 // limiting Request sizes
 builder.WebHost.ConfigureKestrel(options =>
@@ -93,8 +92,6 @@ using (var scope = app.Services.CreateScope()){
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
 }
-
-app.UseHttpsRedirection();
 
 app.Use(async (ctx, next) =>
 {
