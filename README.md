@@ -14,7 +14,7 @@ Creating, Updating, Listing and Deleting Tasks that have a Title, Description, S
 
 ## Self-Host
 
-Setup Docker and self hosting with nginx and Cloudflare Tunnel under <a href="taskapp.s-ose.de">taskapp.s-ose.de</a>. Later I'll add a Homepage under s-ose.de
+Setup Docker and self hosting with nginx and Cloudflare Tunnel under <a href="https://taskapp.s-ose.de">taskapp.s-ose.de</a>. Later I'll add a Homepage under s-ose.de
 
 ## Running locally
 
