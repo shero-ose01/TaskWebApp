@@ -13,3 +13,4 @@ public record LoginRequest(
 public record VerifyEmailRequest([Required, StringLength(64,MinimumLength=3)]string RawToken);
 public record AuthResponse(string AccessToken, string RefreshToken, string Username, string Email);
 public record RefreshRequest([Required] string RefreshToken);
+public record ResendEmailVerificationRequest([Required, EmailAddress, StringLength(254)] string Email);

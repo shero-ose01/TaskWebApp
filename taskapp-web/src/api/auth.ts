@@ -47,6 +47,14 @@ export async function verifyEmail(rawToken: string): Promise<void> {
   });
 }
 
+export async function resendEmailVerification(email: string): Promise<void> {
+  await ApiFetch("/auth/resend-email-verification", {
+    method: "POST",
+    body: { email },
+    auth: false,
+  });
+}
+
 export async function me(): Promise<{
   id: number;
   username: string;

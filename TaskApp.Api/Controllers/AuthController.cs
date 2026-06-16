@@ -21,15 +21,20 @@ public class AuthController(AppDbContext db, TokenService tokens, IEmailSender e
     public async Task<IActionResult> Register([FromBody] RegisterRequest req){
         logger.LogInformation("Register attempt from: {Email}", req.Email);
 
+
         // check if email or username already taken
-        if(await db.Users.AnyAsync(u=>u.Email==req.Email))
-            return Conflict(new { message = "Email already in use" });
+
+        if (await db.Users.AnyAsync(u => u.Email == req.Email))
+            return Conflict(new { message = "Invalid Email or Username" });
 
         if (await db.Users.AnyAsync(u => u.Username == req.Username))
-            return Conflict(new { message = "Username already taken" });
+            return Conflict(new { message = "Invalid Email or Username" });
+
 
         // create hash
         string hash = BCrypt.Net.BCrypt.HashPassword(req.Password);
+
+
 
         // set up user
         User user = new User
@@ -59,7 +64,7 @@ public class AuthController(AppDbContext db, TokenService tokens, IEmailSender e
 
         // create Email and send it
         // TODO: hardcoded example domain, will change later to prod
-        await email.SendAsync(req.Email, EmailSubject, "https://test.domain/verify-email?token="+verificationTokenUrlEncoded);
+        await email.SendVerificationEmailAsync(req.Email, EmailSubject, verificationTokenUrlEncoded, default);
 
         return Ok(new {message = "check email"});
     }
@@ -77,7 +82,7 @@ public class AuthController(AppDbContext db, TokenService tokens, IEmailSender e
             failedAuth = true;
             BCrypt.Net.BCrypt.Verify("dummy", HashDummy);
         }
-        
+
         if(!failedAuth && !BCrypt.Net.BCrypt.Verify(req.Password, user.PasswordHash))
             failedAuth = true;
 
@@ -182,5 +187,36 @@ public class AuthController(AppDbContext db, TokenService tokens, IEmailSender e
 
         await db.SaveChangesAsync();
         return Ok(new {message = "Email verified"});
+    }
+
+    [HttpPost("resend-email-verification")]
+    [AllowAnonymous]
+    [EnableRateLimiting("fixed")]
+    public async Task<IActionResult> ResendEmailVerification([FromBody] ResendEmailVerificationRequest req){
+        User user = await db.Users.FirstOrDefaultAsync(u => u.Email == req.Email);
+
+        if(user==null || user.EmailVerified){
+            return Ok();
+        }
+
+        await db.Tokens.Where(t=>t.Purpose == TokenPurpose.EmailVerification && t.ConsumedAt == null && t.UserID == user.ID).ExecuteUpdateAsync(s=>s.SetProperty(r=>r.ConsumedAt, DateTime.UtcNow));
+
+        var verificationTokenUrlEncoded = tokens.GenerateTokenUrl(32);
+        var verificationTokenHash = tokens.HashToken(verificationTokenUrlEncoded);
+
+        db.Tokens.Add(new Token {
+            User = user,
+            Purpose = TokenPurpose.EmailVerification,
+            TokenHash = verificationTokenHash,
+            ExpiresAt = DateTime.UtcNow.AddMinutes(30)
+        });
+
+        // wait for db update
+        await db.SaveChangesAsync();
+
+        // create Email and send it
+        await email.SendVerificationEmailAsync(req.Email, EmailSubject, verificationTokenUrlEncoded, default);
+
+        return Ok();
     }
 }

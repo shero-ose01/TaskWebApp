@@ -1,7 +1,8 @@
-import { useState, type SubmitEvent } from "react";
-import { register } from "../api/auth";
+import { useEffect, useState, type SubmitEvent } from "react";
+import { register, resendEmailVerification } from "../api/auth";
 import { Link } from "react-router-dom";
 import { ApiError } from "../api/types";
+import { PasswordInput } from "../components/PasswordInput";
 
 export function RegisterPage() {
   const [username, setUsername] = useState("");
@@ -10,6 +11,16 @@ export function RegisterPage() {
   const [submit, setSubmit] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+
+  const [cooldown, setCooldown] = useState(0);
+
+  useEffect(() => {
+    if (cooldown <= 0) {
+      return;
+    }
+    const timer = setTimeout(() => setCooldown((c) => c - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [cooldown]);
 
   async function handleSubmit(e: SubmitEvent) {
     e.preventDefault();
@@ -28,16 +39,34 @@ export function RegisterPage() {
     setSubmit(false);
   }
 
+  async function handleResendEmailVerification() {
+    setCooldown(30);
+    try {
+      await resendEmailVerification(email);
+      setSuccess("Sent a new Verification Email");
+    } catch {}
+  }
+
   return (
     <div className="register-form">
       {success ? (
-        <p>{success}</p>
+        <div>
+          <p>{success}</p>
+          <button
+            type="button"
+            onClick={handleResendEmailVerification}
+            disabled={cooldown > 0}
+          >
+            {cooldown <= 0
+              ? "Resend Verification Email"
+              : "Resend available in " + cooldown}
+          </button>
+        </div>
       ) : (
         <form onSubmit={handleSubmit}>
           <label htmlFor="username">Username</label>
           <input
             id="username"
-            className="oneliner"
             value={username}
             onChange={(e) => {
               setUsername(e.target.value);
@@ -49,7 +78,6 @@ export function RegisterPage() {
           <label htmlFor="email">Email</label>
           <input
             id="email"
-            className="oneliner"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             type="email"
@@ -58,12 +86,10 @@ export function RegisterPage() {
             placeholder="Email"
           />
           <label htmlFor="password">Password</label>
-          <input
+          <PasswordInput
             id="password"
-            className="oneliner"
             value={password}
             onChange={(p) => setPassword(p.target.value)}
-            type="password"
             required
             minLength={8}
             placeholder="Password"
@@ -74,8 +100,7 @@ export function RegisterPage() {
         </form>
       )}
       {error && <p>{error}</p>}
-      <Link to="/login">login</Link>
-      {success && <p>{success}</p>}
+      <Link to="/login">Login</Link>
     </div>
   );
 }

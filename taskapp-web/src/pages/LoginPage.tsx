@@ -2,6 +2,7 @@ import { useState, type SubmitEvent } from "react";
 import { login } from "../api/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { ApiError } from "../api/types";
+import { PasswordInput } from "../components/PasswordInput";
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -33,7 +34,6 @@ export function LoginPage() {
         <label htmlFor="email">Email</label>
         <input
           id="email"
-          className="oneliner"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           type="email"
@@ -42,12 +42,10 @@ export function LoginPage() {
           placeholder="Email"
         />
         <label htmlFor="password">Password</label>
-        <input
+        <PasswordInput
           id="password"
-          className="oneliner"
           value={password}
           onChange={(p) => setPassword(p.target.value)}
-          type="password"
           required
           minLength={8}
           placeholder="Password"

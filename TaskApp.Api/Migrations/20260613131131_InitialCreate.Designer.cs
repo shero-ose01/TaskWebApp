@@ -12,8 +12,8 @@ using TaskApp.Api.Data;
 namespace TaskApp.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260526143700_AddTaskItems")]
-    partial class AddTaskItems
+    [Migration("20260613131131_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -39,4 +39,8 @@ public class SmtpEmailSender : IEmailSender
         await client.SendAsync(message, ct);
         await client.DisconnectAsync(true, ct);
     }
+
+    public async Task SendVerificationEmailAsync(string to, string subject, string token, CancellationToken ct = default){
+        await SendAsync(to, subject, _config["Frontend:BaseUrl"]+ "/verify-email?token=" + token);
+    }
 }

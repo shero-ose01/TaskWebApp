@@ -3,11 +3,16 @@ import { Header } from "./Header";
 
 export function Layout() {
   return (
-    <div>
+    <>
       <Header />
       <main>
         <Outlet />
       </main>
-    </div>
+      <footer>
+        <p>
+          <a href="https://github.com/shero-ose01">Github</a>
+        </p>
+      </footer>
+    </>
   );
 }

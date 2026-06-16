@@ -1,9 +1,14 @@
 #root {
     width: 720px;
     max-width: 100%;
+    margin: 0 auto;
     text-align: left;
     padding: var(--space-2xl) var(--space-xl);
     border-inline: none;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
     @media (max-width: 1024px) {
         padding: var(--space-xl) var(--space-lg);
     }
@@ -36,9 +41,6 @@ form {
 }
 form > button {
     align-self: flex-start;
-}
-form > button + button {
-    margin-left: var(--space-sm);
 }
 
 label {
@@ -199,7 +201,7 @@ form + p,
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--space-md);
+    padding: var(--space-md) 0;
     border-bottom: 1px solid var(--border);
 }
 
@@ -216,4 +218,8 @@ form + p,
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
     padding: var(--space-md);
+}
+
+main {
+    flex: 1;
 }

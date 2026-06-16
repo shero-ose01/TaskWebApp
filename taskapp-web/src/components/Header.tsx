@@ -17,18 +17,18 @@ export function Header() {
   }
 
   return (
-    <div className="header">
+    <header className="header">
       <button onClick={handleLogout}>Logout</button>
       <div className="account-menu">
         <button onClick={showAccountDetails}>Account</button>
-        {expanded && (
+        {expanded && user && (
           <div className="details">
-            <p>{user?.username}</p>
-            <p>{user?.email}</p>
-            <p>{new Date(user?.createdAt).toLocaleDateString()}</p>
+            <p>{user.username}</p>
+            <p>{user.email}</p>
+            <p>{new Date(user.createdAt).toLocaleDateString()}</p>
           </div>
         )}
       </div>
-    </div>
+    </header>
   );
 }
