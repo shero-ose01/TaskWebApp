@@ -30,3 +30,4 @@ I used AI for web search, example files , debugging/editor functionality and the
 <img width="949" height="762" alt="image" src="https://github.com/user-attachments/assets/57dc8ce5-70c3-4898-a2b3-16f1f127a71e" />
 <img width="1033" height="696" alt="image" src="https://github.com/user-attachments/assets/ebde2dc2-d738-49a7-be30-ae46c9783ce5" />
 <img width="1095" height="778" alt="image" src="https://github.com/user-attachments/assets/4a4fb6fe-fc5c-4e8a-b6fc-de754ca0f7d9" />
+<img width="1125" height="1097" alt="image" src="https://github.com/user-attachments/assets/01aaf7c2-4459-476e-9393-17079fdc66fc" />
