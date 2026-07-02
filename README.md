@@ -1,7 +1,7 @@
 # Task/Note WebApp
 
 A Task management webapp using C# ASP.NET for the backend and Vite+React for frontend.
-This is a learning Project, my main focus was on the backend and auth. Frontend was made with react and the for the design/css I used AI to create a template which i edited afterwards myself. 
+This is a learning Project, my main focus was on the backend and auth, basically the whole workflow from auth -> user logged in -> user actions and how to properly make a secure workflow for users. Frontend was made with react and the for the design/css I used AI to create a template which i edited afterwards myself. 
 
 **It's live at [taskapp.s-ose.de](https://taskapp.s-ose.de)**
 
