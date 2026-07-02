@@ -80,6 +80,7 @@ export function NewTaskForm({ onCreated }: NewTaskFormProps) {
               value={dueAt}
               onChange={(dt) => setDueAt(dt.target.value)}
               type="date"
+              onFocus={(e) => e.currentTarget.showPicker?.()}
             />
             <button type="submit" disabled={submitting}>
               Add

@@ -1,0 +1,10 @@
+**/bin
+**/obj
+**/node_modules
+.git
+.gitignore
+**/.vs, **/.vscode, **/.idea
+ttaskapp-web/
+TaskApp.Api.Tests/
+**/appsettings.Developement.json
+*.md

@@ -10,12 +10,12 @@ import { EmailVerificationPage } from "./pages/EmailVerificationPage";
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/tasks" replace />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/verify-email" element={<EmailVerificationPage />} />
-      <Route element={<RequireAuth />}>
-        <Route element={<Layout />}>
+      <Route element={<Layout />}>
+        <Route path="/" element={<Navigate to="/tasks" replace />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/verify-email" element={<EmailVerificationPage />} />
+        <Route element={<RequireAuth />}>
           <Route path="/tasks" element={<TasksPage />} />
         </Route>
       </Route>
