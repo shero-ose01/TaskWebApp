@@ -90,7 +90,7 @@ else
 
 using (var scope = app.Services.CreateScope()){
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    if(db.Database.IsRelational())
+    if(db.Database.ProviderName is not null and not "Microsoft.EntityFrameworkCore.InMemory")
       db.Database.Migrate();
 }
 
